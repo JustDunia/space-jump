@@ -1,9 +1,23 @@
+* {
+	margin: 0;
+	bottom: 0;
+	box-sizing: border-box;
+}
+
+body {
+	height: 100vh;
+	background-image: url('./images/constellations-gdafe5d854_1920.jpg');
+	background-size: cover;
+}
+
 .grid {
-	margin: 0 auto;
-	width: 400px;
-	height: 600px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 600px;
+	height: 800px;
 	background-color: yellow;
-	position: relative;
 	overflow: hidden;
 }
 

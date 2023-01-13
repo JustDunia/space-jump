@@ -4,16 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	const grid = document.querySelector('.grid')
 	const doodler = document.createElement('div')
 	const doodlerWidth = 60
-	const gridHeight = 600
-	const gridWidth = 400
+	const gridHeight = 800
+	const gridWidth = 600
 	const platformWidth = 85
 	const platformHeight = 15
 	let jumpHeight = 200
 	let doodlerLeftSpace = gridWidth / 2 - doodlerWidth / 2
 	let doodlerTempBottom = 150
 	let doodlerBottomSpace = doodlerTempBottom
-	let isGameOver = false
-	const platformCount = 5
+	const platformCount = 6
 	const platforms = []
 	let moveUp
 	let moveDown
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	function hideStartWindow() {
 		menu.style.display = 'none'
 	}
-	
+
 	function showStartWindow() {
 		menu.style.display = 'flex'
 	}
@@ -103,12 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (doodlerBottomSpace <= 0) {
 				gameOver()
 			}
-		}, 30)
+		}, 20)
 	}
 
 	function addPlatforms() {
 		if (platforms[0].bottom < 0 - platformHeight) {
-			grid.removeChild(platforms[0].visual)
+			// grid.removeChild(platforms[0].visual)
+			// let pastPlatform = platforms[0].visual
+			// pastPlatform.classList
 			platforms.shift(0)
 			const platformGap = gridHeight / platformCount
 			const newPlatformBottom = platforms[platformCount - 2].bottom + platformGap
@@ -155,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function gameOver() {
-		isGameOver = true
 		clearInterval(moveDown)
 		clearInterval(moveUp)
 		clearInterval(moveLeft)
@@ -164,22 +164,27 @@ document.addEventListener('DOMContentLoaded', () => {
 		clearInterval(addPlatformsInt)
 		showStartWindow()
 		grid.removeChild(doodler)
+		while (grid.firstChild) {
+			grid.removeChild(grid.firstChild)
+		}
+		for (let i = 0; i < platformCount; i++) {
+			platforms.pop()
+		}
 		console.log(score)
 	}
 
 	function start() {
-		if (!isGameOver) {
-			createDoodler()
-			createPlatforms()
-			hideStartWindow()
-			movePlatformsInt = setInterval(movePlatforms, 30)
-			addPlatformsInt = setInterval(addPlatforms, 30)
-			jump()
-			document.addEventListener('keydown', controlMove)
-		}
+		createDoodler()
+		createPlatforms()
+		hideStartWindow()
+		movePlatformsInt = setInterval(movePlatforms, 30)
+		addPlatformsInt = setInterval(addPlatforms, 30)
+		jump()
+		document.addEventListener('keydown', controlMove)
 	}
+
 	startBtn.addEventListener('click', start)
-	document.addEventListener('keyup', e => {
-		if (e.key === 'Enter') start()
-	})
+	// document.addEventListener('keyup', e => {
+	// 	if (e.key === 'Enter') start()
+	// })
 })
