@@ -1,0 +1,39 @@
+.grid {
+	margin: 0 auto;
+	width: 400px;
+	height: 600px;
+	background-color: yellow;
+	position: relative;
+	overflow: hidden;
+}
+
+.doodler {
+	width: 60px;
+	height: 85px;
+	background-color: red;
+	position: absolute;
+}
+
+.platform {
+	width: 85px;
+	height: 15px;
+	background-color: green;
+	position: absolute;
+}
+
+.menu {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.start-btn {
+	padding: 1em 2em;
+	cursor: pointer;
+}
