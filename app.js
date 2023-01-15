@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const menu = document.querySelector('.menu')
+	const pregameText = menu.querySelector('.pregame-text')
+	const endingText = menu.querySelector('.ending-text')
+	const scoreText = menu.querySelector('.score')
 	const startBtn = document.querySelector('.start-btn')
 	const grid = document.querySelector('.grid')
 	const doodler = document.createElement('div')
@@ -21,6 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	let score = 0
 	let movePlatformsInt
 	let addPlatformsInt
+
+	function removeHowToPlay(){
+		pregameText.classList.add('is-hidden')
+	}
 
 	function createDoodler() {
 		grid.appendChild(doodler)
@@ -136,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (doodlerLeftSpace <= 0) {
 				goRight()
 			}
-		}, 30)
+		},20)
 	}
 
 	function goRight() {
@@ -148,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (doodlerLeftSpace >= gridWidth - doodlerWidth) {
 				goLeft()
 			}
-		}, 30)
+		},20)
 	}
 	function goStraight() {
 		clearInterval(moveLeft)
@@ -163,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		clearInterval(movePlatformsInt)
 		clearInterval(addPlatformsInt)
 		showStartWindow()
+		showScore()
 		grid.removeChild(doodler)
 		while (grid.firstChild) {
 			grid.removeChild(grid.firstChild)
@@ -173,7 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.log(score)
 	}
 
+	function showScore(){
+		endingText.classList.remove('is-hidden')
+		scoreText.innerText = score
+		startBtn.innerText = 'play again'
+	}
+
 	function start() {
+		removeHowToPlay()
 		createDoodler()
 		createPlatforms()
 		hideStartWindow()
@@ -181,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		addPlatformsInt = setInterval(addPlatforms, 30)
 		jump()
 		document.addEventListener('keydown', controlMove)
+		score = 0
 	}
 
 	startBtn.addEventListener('click', start)

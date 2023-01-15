@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>doodle jump</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <div class="grid"></div>
-  <div class="menu">
-    <button class="start-btn">START</button>
-  </div>
-  <script src="./app.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>doodle jump</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div class="grid"></div>
+		<div class="menu">
+			<h1 class="heading">Space Jump</h1>
+      <div class="pregame-text">
+        <h2>How to play</h2>
+        <p>short press <img width="32" height="32" src="./images/icons8-left-angle-parentheses-key-32.png" alt="arrow left key"> to go left</p>
+        <p>short press <img width="32" height="32" src="./images/icons8-right-angle-parentheses-key-32.png" alt="arrow right key"> to go right</p>
+      </div>
+			<div class="ending-text is-hidden">
+				<h2>You scored</h2>
+				<p><span class="score"></span> platforms</p>
+			</div>
+			<button class="start-btn">play</button>
+		</div>
+		<script src="./app.js"></script>
+	</body>
 </html>

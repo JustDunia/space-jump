@@ -1,13 +1,22 @@
+:root {
+	--main-color: #fff126;
+}
+
 * {
 	margin: 0;
 	bottom: 0;
-	box-sizing: border-box;
+	/* box-sizing: border-box; */
 }
 
 body {
 	height: 100vh;
 	background-image: url('./images/constellations-gdafe5d854_1920.jpg');
 	background-size: cover;
+	font-family: 'Space Grotesk', sans-serif;
+}
+
+.is-hidden {
+	display: none;
 }
 
 .grid {
@@ -17,21 +26,29 @@ body {
 	transform: translate(-50%, -50%);
 	width: 600px;
 	height: 800px;
-	background-color: yellow;
+	background-color: transparent;
 	overflow: hidden;
+	border-width: 32px;
+	border-style: solid;
+	border-image: url('./images/border.png');
+	border-image-slice: 32;
+	border-image-repeat: round;
 }
 
 .doodler {
 	width: 60px;
-	height: 85px;
-	background-color: red;
+	height: 90px;
+	background-image: url('./images/astronaut-96.png');
+	background-size: cover;
+	background-position: center;
 	position: absolute;
+	z-index: 1;
 }
 
 .platform {
 	width: 85px;
 	height: 15px;
-	background-color: green;
+	background-color: var(--main-color);
 	position: absolute;
 }
 
@@ -42,12 +59,62 @@ body {
 	left: 0;
 	right: 0;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
+.heading {
+	margin-bottom: 100px;
+	font-size: 80px;
+	color: var(--main-color);
+}
+
+.pregame-text {
+	font-size: 24px;
+	color: #fff;
+}
+
+.pregame-text h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.pregame-text p {
+	margin-bottom: 10px;
+}
+
+.pregame-text img {
+	vertical-align: top;
+}
+
+.ending-text {
+	text-align: center;
+}
+
+.ending-text h2 {
+	margin-bottom: 20px;
+	font-size: 40px;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+.ending-text p {
+	font-size: 48px;
+	color: var(--main-color);
+}
+
 .start-btn {
-	padding: 1em 2em;
+	margin-top: 70px;
+	padding-inline: 32px;
+	height: 60px;
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 20px;
+	text-transform: uppercase;
+	background-color: var(--main-color);
+	color: #312f06;
+	border: none;
+	border-radius: 30px;
 	cursor: pointer;
 }
