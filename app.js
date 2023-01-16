@@ -1,3 +1,5 @@
+'use strict'
+
 document.addEventListener('DOMContentLoaded', () => {
 	const menu = document.querySelector('.menu')
 	const pregameText = menu.querySelector('.pregame-text')
@@ -5,16 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	const scoreText = menu.querySelector('.score')
 	const startBtn = document.querySelector('.start-btn')
 	const grid = document.querySelector('.grid')
-	const doodler = document.createElement('div')
-	const doodlerWidth = 60
+	const jumper = document.createElement('div')
+	const jumperWidth = 60
 	const gridHeight = 800
 	const gridWidth = 600
-	const platformWidth = 85
+	const platformWidth = 100
 	const platformHeight = 15
-	let jumpHeight = 200
-	let doodlerLeftSpace = gridWidth / 2 - doodlerWidth / 2
-	let doodlerTempBottom = 150
-	let doodlerBottomSpace = doodlerTempBottom
+	let jumpHeight = 225
+	let jumperStartingLeftSpace = gridWidth / 2 - jumperWidth / 2
+	let jumperLeftSpace = jumperStartingLeftSpace
+	let jumperTempBottom = 0
+	let jumperBottomSpace = jumperTempBottom
 	const platformCount = 6
 	const platforms = []
 	let moveUp
@@ -25,15 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	let movePlatformsInt
 	let addPlatformsInt
 
-	function removeHowToPlay(){
+	function removeHowToPlay() {
 		pregameText.classList.add('is-hidden')
 	}
 
-	function createDoodler() {
-		grid.appendChild(doodler)
-		doodler.classList.add('doodler')
-		doodler.style.left = doodlerLeftSpace + 'px'
-		doodler.style.bottom = doodlerBottomSpace + 'px'
+	function createJumper() {
+		grid.appendChild(jumper)
+		jumper.classList.add('jumper')
+		jumper.style.left = jumperLeftSpace + 'px'
+		jumper.style.bottom = 0 + 'px'
 	}
 
 	class Platform {
@@ -79,44 +82,39 @@ document.addEventListener('DOMContentLoaded', () => {
 	function jump() {
 		clearInterval(moveDown)
 		moveUp = setInterval(() => {
-			doodlerBottomSpace += 10
-			doodler.style.bottom = doodlerBottomSpace + 'px'
-			if (doodlerBottomSpace > doodlerTempBottom + jumpHeight) {
+			jumperBottomSpace += 6
+			jumper.style.bottom = jumperBottomSpace + 'px'
+			if (jumperBottomSpace > jumperTempBottom + jumpHeight) {
 				fall()
 			}
-		}, 30)
+		}, 15)
 	}
 
 	function fall() {
 		clearInterval(moveUp)
 		moveDown = setInterval(() => {
-			doodlerBottomSpace -= 5
-			doodler.style.bottom = doodlerBottomSpace + 'px'
-
-			//zablokować skakanie przy samym dotknięciu platformy
+			jumperBottomSpace -= 3
+			jumper.style.bottom = jumperBottomSpace + 'px'
 
 			platforms.forEach(platform => {
 				if (
-					doodlerBottomSpace <= platform.bottom + platformHeight &&
-					doodlerBottomSpace >= platform.bottom &&
-					doodlerLeftSpace <= platform.left + platformWidth &&
-					doodlerLeftSpace >= platform.left - doodlerWidth
+					jumperBottomSpace <= platform.bottom + platformHeight &&
+					jumperBottomSpace >= platform.bottom &&
+					jumperLeftSpace <= platform.left + platformWidth &&
+					jumperLeftSpace >= platform.left - jumperWidth
 				) {
-					doodlerTempBottom = doodlerBottomSpace
+					jumperTempBottom = jumperBottomSpace
 					jump()
 				}
 			})
-			if (doodlerBottomSpace <= 0) {
+			if (jumperBottomSpace <= 0) {
 				gameOver()
 			}
-		}, 20)
+		}, 10)
 	}
 
 	function addPlatforms() {
 		if (platforms[0].bottom < 0 - platformHeight) {
-			// grid.removeChild(platforms[0].visual)
-			// let pastPlatform = platforms[0].visual
-			// pastPlatform.classList
 			platforms.shift(0)
 			const platformGap = gridHeight / platformCount
 			const newPlatformBottom = platforms[platformCount - 2].bottom + platformGap
@@ -131,36 +129,37 @@ document.addEventListener('DOMContentLoaded', () => {
 			goLeft()
 		} else if (e.key === 'ArrowRight') {
 			goRight()
-		} else if (e.key === 'ArrowUp') goStraight()
+		}
+		// } else if (e.key === 'ArrowUp') goStraight()
 	}
 
 	function goLeft() {
 		clearInterval(moveLeft)
 		clearInterval(moveRight)
 		moveLeft = setInterval(() => {
-			doodlerLeftSpace -= 5
-			doodler.style.left = doodlerLeftSpace + 'px'
-			if (doodlerLeftSpace <= 0) {
+			jumperLeftSpace -= 2
+			jumper.style.left = jumperLeftSpace + 'px'
+			if (jumperLeftSpace <= 0) {
 				goRight()
 			}
-		},20)
+		}, 6)
 	}
 
 	function goRight() {
 		clearInterval(moveLeft)
 		clearInterval(moveRight)
 		moveRight = setInterval(() => {
-			doodlerLeftSpace += 5
-			doodler.style.left = doodlerLeftSpace + 'px'
-			if (doodlerLeftSpace >= gridWidth - doodlerWidth) {
+			jumperLeftSpace += 2
+			jumper.style.left = jumperLeftSpace + 'px'
+			if (jumperLeftSpace >= gridWidth - jumperWidth) {
 				goLeft()
 			}
-		},20)
+		}, 6)
 	}
-	function goStraight() {
-		clearInterval(moveLeft)
-		clearInterval(moveRight)
-	}
+	// function goStraight() {
+	// 	clearInterval(moveLeft)
+	// 	clearInterval(moveRight)
+	// }
 
 	function gameOver() {
 		clearInterval(moveDown)
@@ -171,17 +170,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		clearInterval(addPlatformsInt)
 		showStartWindow()
 		showScore()
-		grid.removeChild(doodler)
+		grid.removeChild(jumper)
 		while (grid.firstChild) {
 			grid.removeChild(grid.firstChild)
 		}
 		for (let i = 0; i < platformCount; i++) {
 			platforms.pop()
 		}
-		console.log(score)
+		jumperLeftSpace = jumperStartingLeftSpace
+		jumperTempBottom = 0
 	}
 
-	function showScore(){
+	function showScore() {
 		endingText.classList.remove('is-hidden')
 		scoreText.innerText = score
 		startBtn.innerText = 'play again'
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function start() {
 		removeHowToPlay()
-		createDoodler()
+		createJumper()
 		createPlatforms()
 		hideStartWindow()
 		movePlatformsInt = setInterval(movePlatforms, 30)
