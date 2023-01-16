@@ -14,20 +14,61 @@
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<div class="grid"></div>
-		<div class="menu">
+		<div class="grid">
+			<!-- <div class="jumper"></div>
+			<div class="platform"></div> -->
+		</div>
+		<div class="mobile-controlers">
+			<button class="control-btn left-btn">
+				<img
+						width="96"
+						height="96"
+						src="./images/icons8-left-angle-parentheses-key-96.png"
+						alt="arrow left key"
+					/>
+			</button>
+			<button class="control-btn right-btn">
+				<img
+						width="96"
+						height="96"
+						src="./images/icons8-right-angle-parentheses-key-96.png"
+						alt="arrow right key"
+					/>
+			</button>
+		</div>
+		<div class="backdrop">
 			<h1 class="heading">Space Jump</h1>
-      <div class="pregame-text">
-        <h2>How to play</h2>
-        <p>short press <img width="32" height="32" src="./images/icons8-left-angle-parentheses-key-32.png" alt="arrow left key"> to go left</p>
-        <p>short press <img width="32" height="32" src="./images/icons8-right-angle-parentheses-key-32.png" alt="arrow right key"> to go right</p>
-      </div>
+			<div class="pregame-text">
+				<h2>How to play</h2>
+				<p>
+					short press
+					<img
+						width="32"
+						height="32"
+						src="./images/icons8-left-angle-parentheses-key-32.png"
+						alt="arrow left key"
+					/>
+					to go left
+				</p>
+				<p>
+					short press
+					<img
+						width="32"
+						height="32"
+						src="./images/icons8-right-angle-parentheses-key-32.png"
+						alt="arrow right key"
+					/>
+					to go right
+				</p>
+			</div>
 			<div class="ending-text is-hidden">
 				<h2>You scored</h2>
 				<p><span class="score"></span> platforms</p>
 			</div>
 			<button class="start-btn">play</button>
 		</div>
+		<div class="prototype-platform"></div>
+		<div class="prototype-jumper"></div>
 		<script src="./app.js"></script>
 	</body>
 </html>

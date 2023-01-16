@@ -1,32 +1,42 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', () => {
-	const menu = document.querySelector('.menu')
-	const pregameText = menu.querySelector('.pregame-text')
-	const endingText = menu.querySelector('.ending-text')
-	const scoreText = menu.querySelector('.score')
+	const backdrop = document.querySelector('.backdrop')
+	const pregameText = document.querySelector('.pregame-text')
+	const endingText = document.querySelector('.ending-text')
+	const scoreText = document.querySelector('.score')
 	const startBtn = document.querySelector('.start-btn')
 	const grid = document.querySelector('.grid')
 	const jumper = document.createElement('div')
-	const jumperWidth = 60
-	const gridHeight = 800
-	const gridWidth = 600
-	const platformWidth = 100
-	const platformHeight = 15
-	let jumpHeight = 225
-	let jumperStartingLeftSpace = gridWidth / 2 - jumperWidth / 2
+	const leftBtn = document.querySelector('.left-btn')
+	const rightBtn = document.querySelector('.right-btn')
+	const protoJumper = document.querySelector('.prototype-jumper')
+	const protoPlatform = document.querySelector('.prototype-platform')
+	
+
+	const jumperWidth = Number(getComputedStyle(protoJumper).width.slice(0, -2))
+	const gridHeight = Number(getComputedStyle(grid).height.slice(0, -2))
+	const gridWidth = Number(getComputedStyle(grid).width.slice(0, -2))
+	const platformWidth = Number(getComputedStyle(protoPlatform).width.slice(0, -2))
+	const platformHeight = Number(getComputedStyle(protoPlatform).height.slice(0, -2))
+
+	const jumpHeight = gridHeight / 3.55
+	const jumperStartingLeftSpace = gridWidth / 2 - jumperWidth / 2
+	const platformCount = Math.ceil(gridHeight / 134)
+	const platforms = []
+	
 	let jumperLeftSpace = jumperStartingLeftSpace
 	let jumperTempBottom = 0
 	let jumperBottomSpace = jumperTempBottom
-	const platformCount = 6
-	const platforms = []
+	let score = 0
+	
 	let moveUp
 	let moveDown
 	let moveLeft
 	let moveRight
-	let score = 0
 	let movePlatformsInt
 	let addPlatformsInt
+	
 
 	function removeHowToPlay() {
 		pregameText.classList.add('is-hidden')
@@ -64,11 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function hideStartWindow() {
-		menu.style.display = 'none'
+		backdrop.style.display = 'none'
 	}
 
 	function showStartWindow() {
-		menu.style.display = 'flex'
+		backdrop.style.display = 'flex'
 	}
 
 	function movePlatforms() {
@@ -130,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		} else if (e.key === 'ArrowRight') {
 			goRight()
 		}
-		// } else if (e.key === 'ArrowUp') goStraight()
 	}
 
 	function goLeft() {
@@ -156,10 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}, 6)
 	}
-	// function goStraight() {
-	// 	clearInterval(moveLeft)
-	// 	clearInterval(moveRight)
-	// }
 
 	function gameOver() {
 		clearInterval(moveDown)
@@ -196,11 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		addPlatformsInt = setInterval(addPlatforms, 30)
 		jump()
 		document.addEventListener('keydown', controlMove)
+		leftBtn.addEventListener('click', goLeft)
+		rightBtn.addEventListener('click', goRight)
 		score = 0
 	}
 
 	startBtn.addEventListener('click', start)
-	// document.addEventListener('keyup', e => {
-	// 	if (e.key === 'Enter') start()
-	// })
 })

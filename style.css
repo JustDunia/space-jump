@@ -4,15 +4,18 @@
 
 * {
 	margin: 0;
-	bottom: 0;
-	/* box-sizing: border-box; */
+	padding: 0;
 }
 
 body {
-	height: 100vh;
+	margin: 10px;
+	height: 100dvh;
 	background-image: url('./images/constellations-gdafe5d854_1920.jpg');
 	background-size: cover;
 	font-family: 'Space Grotesk', sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .is-hidden {
@@ -20,24 +23,40 @@ body {
 }
 
 .grid {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: 600px;
-	height: 800px;
+	position: relative;
+	width: 100%;
+	max-width: 600px;
+	aspect-ratio: 0.75;
 	background-color: transparent;
 	overflow: hidden;
-	border-width: 32px;
+	border-width: 24px;
 	border-style: solid;
 	border-image: url('./images/border.png');
 	border-image-slice: 32;
 	border-image-repeat: round;
 }
 
-.jumper {
+.mobile-controlers {
+	position: absolute;
+	bottom: 20px;
+	display: flex;
+	gap: 100px;
+}
+
+.control-btn {
+	background-color: transparent;
+	border: none;
+	height: 60px;
 	width: 60px;
-	height: 90px;
+}
+
+.control-btn img{
+	width: 100%;height: 100%;
+}
+
+.jumper {
+	width: 30px;
+	aspect-ratio: 2/3;
 	background-image: url('./images/astronaut-96.png');
 	background-size: cover;
 	background-position: center;
@@ -47,13 +66,13 @@ body {
 
 .platform {
 	position: absolute;
-	width: 100px;
-	height: 15px;
-	border-radius: 7px;
+	width: 40px;
+	height: 5px;
+	border-radius: 6px;
 	background-color: var(--main-color);
 }
 
-.menu {
+.backdrop {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -67,13 +86,13 @@ body {
 }
 
 .heading {
-	margin-bottom: 100px;
-	font-size: 80px;
+	margin-bottom: 40px;
+	font-size: 36px;
 	color: var(--main-color);
 }
 
 .pregame-text {
-	font-size: 24px;
+	font-size: 16px;
 	color: #fff;
 }
 
@@ -87,7 +106,7 @@ body {
 }
 
 .pregame-text img {
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .ending-text {
@@ -95,27 +114,129 @@ body {
 }
 
 .ending-text h2 {
-	margin-bottom: 20px;
-	font-size: 40px;
+	font-size: 24px;
 	color: #fff;
 	text-transform: uppercase;
 }
 
 .ending-text p {
-	font-size: 48px;
+	font-size: 28px;
 	color: var(--main-color);
 }
 
 .start-btn {
-	margin-top: 70px;
-	padding-inline: 32px;
-	height: 60px;
+	margin-top: 36px;
+	padding-inline: 24px;
+	height: 40px;
 	font-family: 'Space Grotesk', sans-serif;
-	font-size: 20px;
+	font-size: 16px;
 	text-transform: uppercase;
 	background-color: var(--main-color);
 	color: #312f06;
 	border: none;
 	border-radius: 30px;
 	cursor: pointer;
+}
+
+.prototype-platform {
+	position: absolute;
+	width: 60px;
+	height: 15px;
+}
+
+.prototype-jumper {
+	position: absolute;
+	width: 40px;
+}
+
+@media (width >= 420px) {
+	.jumper,
+	.prototype-jumper {
+		width: 40px;
+	}
+	.platform,
+	.prototype-platform {
+		width: 50px;
+		height: 8px;
+	}
+
+	.heading {
+		margin-bottom: 70px;
+		font-size: 48px;
+	}
+
+	.pregame-text {
+		font-size: 20px;
+	}
+
+	.ending-text h2 {
+		margin-bottom: 10px;
+		font-size: 36px;
+	}
+
+	.ending-text p {
+		font-size: 44px;
+	}
+
+	.start-btn {
+		margin-top: 70px;
+		padding-inline: 28px;
+		height: 50px;
+		font-size: 18px;
+	}
+}
+
+@media (width >= 540px) {
+	.jumper,
+	.prototype-jumper {
+		width: 50px;
+	}
+	.platform,
+	.prototype-platform {
+		width: 60px;
+		height: 10px;
+	}
+}
+
+@media (width >= 640px) {
+	.jumper,
+	.prototype-jumper {
+		width: 60px;
+	}
+	.platform,
+	.prototype-platform {
+		width: 80px;
+		height: 12px;
+	}
+
+	.heading {
+		margin-bottom: 100px;
+		font-size: 80px;
+	}
+
+	.pregame-text {
+		font-size: 24px;
+	}
+
+	.ending-text h2 {
+		margin-bottom: 20px;
+		font-size: 40px;
+	}
+
+	.ending-text p {
+		font-size: 48px;
+	}
+
+	.start-btn {
+		margin-top: 70px;
+		padding-inline: 32px;
+		height: 60px;
+		font-size: 20px;
+	}
+}
+
+@media (width >= 1200px){
+	.mobile-controlers{
+		display: none;
+	}
 }
