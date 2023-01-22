@@ -7,12 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const scoreText = document.querySelector('.score')
 	const startBtn = document.querySelector('.start-btn')
 	const grid = document.querySelector('.grid')
+	const countVisual = document.createElement('p')
+	const midscore = document.createElement('p')
 	const jumper = document.createElement('div')
 	const leftBtn = document.querySelector('.left-btn')
 	const rightBtn = document.querySelector('.right-btn')
 	const protoJumper = document.querySelector('.prototype-jumper')
 	const protoPlatform = document.querySelector('.prototype-platform')
-	
 
 	const jumperWidth = Number(getComputedStyle(protoJumper).width.slice(0, -2))
 	const gridHeight = Number(getComputedStyle(grid).height.slice(0, -2))
@@ -20,26 +21,48 @@ document.addEventListener('DOMContentLoaded', () => {
 	const platformWidth = Number(getComputedStyle(protoPlatform).width.slice(0, -2))
 	const platformHeight = Number(getComputedStyle(protoPlatform).height.slice(0, -2))
 
-	const jumpHeight = gridHeight / 3.55
+	const jumpHeight = gridHeight / 3.3
 	const jumperStartingLeftSpace = gridWidth / 2 - jumperWidth / 2
 	const platformCount = Math.ceil(gridHeight / 134)
 	const platforms = []
-	
+
 	let jumperLeftSpace = jumperStartingLeftSpace
 	let jumperTempBottom = 0
 	let jumperBottomSpace = jumperTempBottom
 	let score = 0
-	
+
+	// intervals
+	let countdownInt
 	let moveUp
 	let moveDown
 	let moveLeft
 	let moveRight
 	let movePlatformsInt
 	let addPlatformsInt
-	
 
 	function removeHowToPlay() {
 		pregameText.classList.add('is-hidden')
+	}
+
+	function hideStartWindow() {
+		backdrop.style.display = 'none'
+	}
+
+	function showStartWindow() {
+		backdrop.style.display = 'flex'
+	}
+
+	function countdown() {
+		const countElements = ['3', '2', '1']
+
+		countVisual.classList.add('counting')
+		grid.appendChild(countVisual)
+		countVisual.innerText = countElements[0]
+		let i = 1
+		countdownInt = setInterval(() => {
+			countVisual.innerText = countElements[i]
+			i++
+		}, 800)
 	}
 
 	function createJumper() {
@@ -67,32 +90,58 @@ document.addEventListener('DOMContentLoaded', () => {
 	function createPlatforms() {
 		for (let i = 0; i < platformCount; i++) {
 			const platformGap = gridHeight / platformCount
-			const newPlatformBottom = 50 + i * platformGap
+			const newPlatformBottom = gridHeight / 16 + i * platformGap
 			const newPlatform = new Platform(newPlatformBottom)
 			platforms.push(newPlatform)
 		}
 	}
 
-	function hideStartWindow() {
-		backdrop.style.display = 'none'
-	}
-
-	function showStartWindow() {
-		backdrop.style.display = 'flex'
-	}
-
 	function movePlatforms() {
 		platforms.forEach(platform => {
+			if (score > 20) {
+				platform.bottom -= 2
+			}
 			platform.bottom -= 4
 			const visual = platform.visual
 			visual.style.bottom = platform.bottom + 'px'
 		})
 	}
 
+	function addPlatforms() {
+		if (platforms[0].bottom < 0 - platformHeight) {
+			platforms.shift(0)
+			const platformGap = gridHeight / platformCount
+			const newPlatformBottom = platforms[platformCount - 2].bottom + platformGap
+			const newPlatform = new Platform(newPlatformBottom)
+			platforms.push(newPlatform)
+			showMidscore()
+		}
+	}
+
 	function jump() {
 		clearInterval(moveDown)
 		moveUp = setInterval(() => {
-			jumperBottomSpace += 6
+			if (score > 20) {
+				jumperBottomSpace += 1
+			}
+			if (score > 50) {
+				jumperBottomSpace += 1
+			}
+			if (jumperBottomSpace < jumperTempBottom + jumpHeight * 0.4) {
+				jumperBottomSpace += 6
+			}
+			if (jumperBottomSpace < jumperTempBottom + jumpHeight * 0.7) {
+				jumperBottomSpace += 5
+			}
+			if (jumperBottomSpace < jumperTempBottom + jumpHeight * 0.8) {
+				jumperBottomSpace += 4
+			}
+			if (jumperBottomSpace < jumperTempBottom + jumpHeight * 0.9) {
+				jumperBottomSpace += 3
+			}
+			if (jumperBottomSpace >= jumperTempBottom + jumpHeight * 0.9) {
+				jumperBottomSpace += 2
+			}
 			jumper.style.bottom = jumperBottomSpace + 'px'
 			if (jumperBottomSpace > jumperTempBottom + jumpHeight) {
 				fall()
@@ -103,7 +152,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	function fall() {
 		clearInterval(moveUp)
 		moveDown = setInterval(() => {
-			jumperBottomSpace -= 3
+			if (score > 20) {
+				jumperBottomSpace -= 1
+			}
+			if (score > 50) {
+				jumperBottomSpace -= 1
+			}
+
+			if (jumperBottomSpace > jumperTempBottom + jumpHeight * 0.9) {
+				jumperBottomSpace -= 2
+			}
+			if (jumperBottomSpace > jumperTempBottom + jumpHeight * 0.8) {
+				jumperBottomSpace -= 3
+			}
+			if (jumperBottomSpace <= jumperTempBottom + jumpHeight * 0.8) {
+				jumperBottomSpace -= 4
+			}
 			jumper.style.bottom = jumperBottomSpace + 'px'
 
 			platforms.forEach(platform => {
@@ -123,15 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 10)
 	}
 
-	function addPlatforms() {
-		if (platforms[0].bottom < 0 - platformHeight) {
-			platforms.shift(0)
-			const platformGap = gridHeight / platformCount
-			const newPlatformBottom = platforms[platformCount - 2].bottom + platformGap
-			const newPlatform = new Platform(newPlatformBottom)
-			platforms.push(newPlatform)
-			score++
-		}
+	function createMidscore() {
+		midscore.classList.add('midscore')
+		grid.appendChild(midscore)
+		midscore.innerHTML = score
+	}
+
+	function showMidscore() {
+		score++
+		midscore.innerHTML = score
 	}
 
 	function controlMove(e) {
@@ -151,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (jumperLeftSpace <= 0) {
 				goRight()
 			}
-		}, 6)
+		}, 3)
 	}
 
 	function goRight() {
@@ -163,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (jumperLeftSpace >= gridWidth - jumperWidth) {
 				goLeft()
 			}
-		}, 6)
+		}, 3)
 	}
 
 	function gameOver() {
@@ -184,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		jumperLeftSpace = jumperStartingLeftSpace
 		jumperTempBottom = 0
+		document.removeEventListener('keydown', controlMove)
 	}
 
 	function showScore() {
@@ -194,17 +259,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function start() {
 		removeHowToPlay()
-		createJumper()
-		createPlatforms()
 		hideStartWindow()
-		movePlatformsInt = setInterval(movePlatforms, 30)
-		addPlatformsInt = setInterval(addPlatforms, 30)
-		jump()
-		document.addEventListener('keydown', controlMove)
-		leftBtn.addEventListener('click', goLeft)
-		rightBtn.addEventListener('click', goRight)
+		countdown()
+		createPlatforms()
+		createJumper()
+		setTimeout(() => {
+			clearInterval(countdownInt)
+			grid.removeChild(countVisual)
+			createMidscore()
+			jump()
+			movePlatformsInt = setInterval(movePlatforms, 30)
+			addPlatformsInt = setInterval(addPlatforms, 30)
+			document.addEventListener('keydown', controlMove)
+			leftBtn.addEventListener('click', goLeft)
+			rightBtn.addEventListener('click', goRight)
+		}, 2400)
+
 		score = 0
 	}
 
 	startBtn.addEventListener('click', start)
 })
+b
