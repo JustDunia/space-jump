@@ -1,5 +1,7 @@
 # Space Jump Game
 
+[PLAY](https://justdunia.github.io/space-jump/)
+
 ## Tech Stack
 - HTML
 - CSS
@@ -11,7 +13,7 @@
 - creating border-image
 
 ## Next step to improve project
-- create mobile version
+- create mobile version (in progress - see branch 'mobile-view')
 - add stars-collecting feature
 
 
