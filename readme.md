@@ -2,6 +2,8 @@
 
 [PLAY](https://justdunia.github.io/space-jump/)
 
+Width and height of playing area is set for 600x800 px (creating mobile view in progress). Please, press 'CTRL' + '-' if the playing area doesn't fit your viewport.
+
 ## Tech Stack
 - HTML
 - CSS
